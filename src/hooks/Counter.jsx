@@ -1,16 +1,19 @@
 import React, { Fragment, useState, useEffect } from "react";
+import useDocumentTitle from "./useDocumentTitle";
 import "../App.css";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
 
-  useEffect(() => {
-    document.title = `${name} has clicked ${count} times`;
-    return () => {
-      //cleanup;
-    };
-  }, [name]);
+  useDocumentTitle(`${name} has clicked ${count} times`);
+
+  // useEffect(() => {
+  //   document.title = `${name} has clicked ${count} times`;
+  //   return () => {
+  //     //cleanup;
+  //   };
+  // }, [name]);
 
   return (
     <main role="main" className="container">

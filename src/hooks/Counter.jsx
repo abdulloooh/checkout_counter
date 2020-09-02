@@ -25,7 +25,7 @@ const Counter = () => {
           setName(e.target.value);
         }}
       />
-      <h5>Counter with React Hooks [not styled tho]</h5>
+      <h5>Counter with React Hooks</h5>
       <div>
         {name} has clicked {count} times
       </div>

@@ -39,7 +39,7 @@ const Counter = () => {
 export default Counter;
 
 /*
-We do not have "this.setState" in react cos no inheritance from base Component class
+We do not have "this.setState" in react functional components cos no inheritance from base Component class
 useState returns two variables which can be get by array destructuring
 
 Hooks can't be called in a conditional statement because hooks calling works with

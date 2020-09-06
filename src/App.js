@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/nav";
 import Counters from "./components/counters";
+
+import CounterHook from "./hooks/Counter";
+import Users from "./hooks/Users";
+import MoviePage from "./context/MoviePage";
+import UserContext from "./context/userContext";
 class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     // console.log("prev state ", prevState);
@@ -17,6 +22,8 @@ class App extends Component {
       { id: 3, value: 1 },
       { id: 4, value: 0 },
     ],
+
+    currentUser: { name: null /*Abdullah */ }, //needs to pass this down the component tree with context
   };
 
   constructor(props) {
@@ -34,6 +41,10 @@ class App extends Component {
     //then update state or sth eg this.setState({audios: something})
     console.log("App - Mounted");
   }
+
+  handleCurrentUser = (name) => {
+    this.setState({ currentUser: { name } });
+  };
 
   handleIncrement = (counter) => {
     let counters = [...this.state.counters];
@@ -79,7 +90,12 @@ class App extends Component {
     console.log("App - rendered");
 
     return (
-      <React.Fragment>
+      <UserContext.Provider
+        value={{
+          currentUser: this.state.currentUser,
+          onUserChange: this.handleCurrentUser,
+        }}
+      >
         <main role="main" className="container">
           <NavBar
             total={
@@ -95,8 +111,12 @@ class App extends Component {
             onDecrement={this.handleDecrement}
             onReset={this.handleReset}
           />
+
+          <CounterHook />
+          <Users />
+          <MoviePage />
         </main>
-      </React.Fragment>
+      </UserContext.Provider>
     );
   }
 }

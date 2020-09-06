@@ -7,6 +7,7 @@ import CounterHook from "./hooks/Counter";
 import Users from "./hooks/Users";
 import MoviePage from "./context/MoviePage";
 import UserContext from "./context/userContext";
+import CartContext from "./context/cartContext";
 class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     // console.log("prev state ", prevState);
@@ -90,33 +91,37 @@ class App extends Component {
     console.log("App - rendered");
 
     return (
-      <UserContext.Provider
-        value={{
-          currentUser: this.state.currentUser,
-          onUserChange: this.handleCurrentUser,
-        }}
-      >
-        <main role="main" className="container">
-          <NavBar
-            total={
-              this.state.counters.filter((counter) => counter.value > 0).length
-            }
-          />
+      <CartContext.Provider value={{ counter: this.state.counters }}>
+        {/*just passing counter as value*/}
+        <UserContext.Provider
+          value={{
+            currentUser: this.state.currentUser,
+            onUserChange: this.handleCurrentUser,
+          }}
+        >
+          <main role="main" className="container">
+            <NavBar
+              total={
+                this.state.counters.filter((counter) => counter.value > 0)
+                  .length
+              }
+            />
 
-          <Counters
-            className="lead"
-            counters={this.state.counters}
-            onDelete={this.handleDelete}
-            onIncrement={this.handleIncrement}
-            onDecrement={this.handleDecrement}
-            onReset={this.handleReset}
-          />
+            <Counters
+              className="lead"
+              counters={this.state.counters}
+              onDelete={this.handleDelete}
+              onIncrement={this.handleIncrement}
+              onDecrement={this.handleDecrement}
+              onReset={this.handleReset}
+            />
 
-          <CounterHook />
-          <Users />
-          <MoviePage />
-        </main>
-      </UserContext.Provider>
+            <CounterHook />
+            <Users />
+            <MoviePage />
+          </main>
+        </UserContext.Provider>
+      </CartContext.Provider>
     );
   }
 }
